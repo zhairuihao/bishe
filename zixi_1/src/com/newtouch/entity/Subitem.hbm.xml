@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+    
+    <hibernate-mapping>
+    
+    <class name="com.newtouch.entity.Subitem">
+    <id name="subitemId">
+    <generator class="native"/>
+    </id>
+    <property name="subitemName"/>
+    <property name="itemDescription"/>
+    <property name="d_delete"/>
+    <property name="itemId"/>
+   <many-to-one name="manager" lazy="false" class="com.newtouch.entity.User"></many-to-one>
+    <set name="topic" cascade="all" lazy="false">
+      <key column="subitemId"/>
+      <one-to-many class="com.newtouch.entity.Topic"/>
+    </set>
+    </class>
+    
+    </hibernate-mapping>

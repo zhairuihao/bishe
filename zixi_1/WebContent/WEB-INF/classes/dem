@@ -1,0 +1,33 @@
+user--用户表
+item--栏目表
+subitem--子栏目表
+replay--回复表
+topic--主题表
+
+问题及解决
+
+
+		 mysql> show variables like "%char%";
+		+--------------------------+------------------------------------------------------------------+
+		| Variable_name            | Value                                                            |
+		+--------------------------+------------------------------------------------------------------+
+		| character_set_client     | utf8                                                             |
+		| character_set_connection | utf8                                                             |
+		| character_set_database   | utf8                                                             |
+		| character_set_filesystem | binary                                                           |
+		| character_set_results    | utf8                                                             |
+		| character_set_server     | utf8                                                             |
+		| character_set_system     | utf8                                                             |
+		| character_sets_dir       | C:\Program Files (x86)\MySQL\mysql-5.5.40-winx64\share\charsets\ |
+		+--------------------------+------------------------------------------------------------------+
+数据库插入乱码   全部统一成utf-8;
+
+js 操作action 传数据乱码问题
+
+		  //前台js将参数值转为统一资源标示符****两次编码
+		username = encodeURI(encodeURI(username));
+		username = encodeURI(encodeURI(username));
+		//action 中对传过来的值进行解码****三次解码
+		username = URLDecoder.decode(username, "UTF-8");
+		username = URLDecoder.decode(username, "UTF-8");
+		username = URLDecoder.decode(username, "UTF-8");

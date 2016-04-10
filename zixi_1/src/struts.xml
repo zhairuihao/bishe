@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 中文编码处理 -->
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<package name="mstruts" extends="struts-default">
+
+
+		<!-- 用户注册 -->
+		<action name="useradd" class="userAddAction">
+			<result name="success">/bbs/userlogin.jsp</result>
+			<result name="input">/bbs/useradd.jsp</result>
+		</action>
+
+		<!-- 查询用户 -->
+		<action name="selectuser" class="findAllUserAction">
+			<result name="success">/bbs/selectuser.jsp</result>
+		</action>
+		<!-- ajax1 -->
+		<action name="ajaxuser" class="byPopedom_AjaxAction">
+			<result name="success">/bbs/selectuser.jsp</result>
+		</action>
+		<!-- 删除用户 -->
+		<action name="delete" class="delectuserAction">
+			<result name="success">/bbs/selectuser.jsp</result>
+		</action>
+		<!-- 更新用户 -->
+		<!-- 查名字 -->
+		<action name="findusername" class="selectAllUserAction">
+			<result name="success">/bbs/findusername.jsp</result>
+		</action>
+		<!-- 查信息 -->
+		<action name="findusername_a" class="findUsernameAction">
+			<result name="success">/bbs/selectusername.jsp</result>
+		</action>
+		<!-- 更新用户信息 -->
+		<action name="updateuser" class="updateuserAction">
+			<result name="success">/bbs/success.jsp</result>
+		</action>
+		<!-- 添加栏目 -->
+		<action name="additem" class="additemAction">
+			<result name="success" type="redirect">selectitem.action</result>
+			<result name="input">/bbs/additem_con.jsp</result>
+		</action>
+		<!-- 查询栏目 -->
+		<action name="selectitem" class="selectitemAction">
+			<result name="success">/bbs/lookitem_con.jsp</result>
+		</action>
+		<!-- 删除栏目 -->
+		<action name="deleteitem" class="Delet_itemAction">
+			<result name="success">/bbs/lookitem_con.jsp</result>
+		</action>
+		<!-- 登陆 -->
+		<action name="login" class="loginAction">
+			<result name="success">/bbs/lookuser.jsp</result>
+			<result name="error">/bbs/userlogin.jsp</result>
+		</action>
+		<action name="login_user" class="loginAction_user">
+			<result name="success" type="chain">goindex</result>
+			<result name="error">/bbs/userlogin.jsp</result>
+		</action>
+		<!-- 添加子栏目 -->
+		<action name="subitemadd" class="addsubitemAction">
+			<result name="success" type="redirect">selectSubitem.action?titemId=1
+			</result>
+			<result name="input">/bbs/addsubitem_con.jsp</result>
+		</action>
+		<!-- 查询子栏目 -->
+		<action name="selectSubitem" class="findallsubitemAction">
+			<result name="success">/bbs/ looksubitem_con.jsp</result>
+		</action>
+		<!-- 删除子栏目 -->
+		<action name="deletesubitem" class="Delet_subitemAction">
+			<result name="success">/bbs/ looksubitem_con.jsp</result>
+		</action>
+		<!-- 首页 -->
+		<action name="goindex" class="GoIndexAction">
+			<result name="success">/bbs/Index.jsp</result>
+		</action>
+		<!-- 栏目中的主题 -->
+		<action name="showtopic" class="FindAllTopicAction">
+			<result name="success">/bbs/showtopic.jsp</result>
+		</action>
+		<!-- 发表主题 -->
+		<action name="topicadd" class="TopicAddAction">
+			<result name="success" type="redirect">showtopic.action?subitemId=${sessionScope.subitem.subitemId}&amp;currentPage=1
+			</result>
+			<result name="error">/bbs/addtopic.jsp</result>
+		</action>
+		<!-- 主题 及回复列表 -->
+		<action name="showtopic_re" class="FindTopicAction">
+			<result name="success">/bbs/showtopic_replay.jsp</result>
+		</action>
+		<!-- 发表回复 -->
+		<action name="replayadd" class="ReplayAddAction">
+			<result name="success" type="redirect">showtopic_re.action?topicId=${sessionScope.topic.topicId}&amp;currentPage=1&amp;subitemId=${sessionScope.subitem.subitemId}
+			</result>
+		</action>
+		<action name="showtopic_ajax" class="FindAllTopicAction_Ajax" method="getList">
+		    <result name="success">/
+			</result>
+		</action>
+
+	</package>
+</struts>

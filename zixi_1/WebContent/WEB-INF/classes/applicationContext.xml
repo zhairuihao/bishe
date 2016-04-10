@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:aop="http://www.springframework.org/schema/aop" 
+xmlns:tx="http://www.springframework.org/schema/tx" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-2.0.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+<!-- 整合Hibernate -->
+<!-- 1.配置数据源 -->
+<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+<property name="url" value="jdbc:mysql://localhost/b_bbs?useUnicode=true&amp;characterEncoding=utf-8"/>
+<property name="username" value="root"></property>
+<property name="password" value=""></property>
+</bean>
+<!--2. 配置sessionfactory -->
+<bean id="sessionfactory"  class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+   <property name="dataSource" ref="datasource"/><!-- 把配置好的datasource进行注入 -->
+   <property name="hibernateProperties"><!-- 配置其他属性 -->
+	<props>
+	<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+	<prop key="hibernate.show_sql">true</prop>
+	</props>
+   </property>
+   <!-- 加载映射文件 -->
+	<property name="mappingResources">
+		<list>
+		<value>com/newtouch/entity/User.hbm.xml</value>
+		<value>com/newtouch/entity/Item.hbm.xml</value>	
+		<value>com/newtouch/entity/Subitem.hbm.xml</value>	
+		<value>com/newtouch/entity/Topic.hbm.xml</value>	
+		<value>com/newtouch/entity/Replay.hbm.xml</value>	
+		</list>
+	</property>
+	
+</bean>
+    <!-- Index   -->
+     <bean id="userdao" class="com.newtouch.imp.UserDaoImp">
+       <property name="sessionFactory" ref="sessionfactory"/>
+	 </bean>
+	 <bean id="userservice" class="com.newtouch.service.UserServiceImp">
+	   <property name="userdao"  ref="userdao"/>
+	 </bean>
+	 <bean id="itemdao" class="com.newtouch.imp.ItemDaoImp">
+       <property name="sessionFactory" ref="sessionfactory"/>
+	 </bean>
+	 <bean id="subitemdao" class="com.newtouch.imp.SubItemDaoImp">
+       <property name="sessionFactory" ref="sessionfactory"/>
+	 </bean>
+	 <bean id="topicdao" class="com.newtouch.imp.TopicDaoImp">
+       <property name="sessionFactory" ref="sessionfactory"/>
+	 </bean>
+	 <bean id="replaydao" class="com.newtouch.imp.ReplayDaoImp">
+       <property name="sessionFactory" ref="sessionfactory"/>
+	 </bean>
+	 
+	 <bean id="subitemservice" class="com.newtouch.service.SubItemServiceImp">
+	   <property name="subItemDao"  ref="subitemdao"/>
+	   <property name="userDao" ref="userdao"/>
+	 </bean>
+	  <bean id="topicservice" class="com.newtouch.service.TopicServiceImp">
+	   <property name="topicDao"  ref="topicdao"/>
+	   <property name="userDao" ref="userdao"/>
+	 </bean>
+	 <bean id="replayservice" class="com.newtouch.service.ReplayServiceImp">
+	   <property name="replayDao"  ref="replaydao"/>
+	   <property name="userDao" ref="userdao"/>
+	 </bean>
+	 <bean id="itemservice" class="com.newtouch.service.ItemServiceImp">
+	   <property name="itemdao"  ref="itemdao"/>
+	   <property name="userdao" ref="userdao"/>
+	 </bean>
+	 
+	 
+	 <bean id="userAddAction"  class="com.newtouch.action.UserAddAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	 <bean id="findAllUserAction"  class="com.newtouch.action.FindAllUserAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	 <bean id="byPopedom_AjaxAction"  class="com.newtouch.action.ByPopedom_AjaxAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	 <bean id="delectuserAction"  class="com.newtouch.action.DelectuserAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	 <bean id="selectAllUserAction"  class="com.newtouch.action.SelectAllUserAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	 <bean id="findUsernameAction"  class="com.newtouch.action.FindUsernameAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	  <bean id="updateuserAction"  class="com.newtouch.action.UpdateuserAction" >
+	   <property name="userservice" ref="userservice"></property>
+	 </bean>
+	 <bean id="loginAction"  class="com.newtouch.action.LoginAction" >
+	   <property name="userService" ref="userservice"></property>
+	 </bean>
+	 <bean id="loginAction_user"  class="com.newtouch.action.LoginAction_user" >
+	   <property name="userService" ref="userservice"></property>
+	 </bean>
+	 
+	 <bean id="additemAction"  class="com.newtouch.action.ItemAddAction" >
+	   <property name="itemService" ref="itemservice"></property>
+	 </bean>
+	 <bean id="addsubitemAction"  class="com.newtouch.action.SubItemAddAction" >
+	   <property name="subitemService" ref="subitemservice"></property>
+	 </bean>
+	 <bean id="selectitemAction"  class="com.newtouch.action.FindAllItemAction" >
+	   <property name="itemService" ref="itemservice"></property>
+	 </bean>
+	  <bean id="findallsubitemAction"  class="com.newtouch.action.FindAllSubItemAction" >
+	   <property name="itemService" ref="itemservice"></property>
+	    <property name="subitemService" ref="subitemservice"></property>
+	 </bean>
+	 <bean id="Delet_itemAction"  class="com.newtouch.action.Delet_itemAction" >
+	   <property name="itemService" ref="itemservice"></property>
+	 </bean>
+	 <bean id="Delet_subitemAction"  class="com.newtouch.action.Delet_subitemAction" >
+	   <property name="subitemService" ref="subitemservice"></property>
+	 </bean>
+	 <bean id="GoIndexAction"  class="com.newtouch.action.GoIndexAction" >
+	   <property name="subitemService" ref="subitemservice"></property>
+	   <property name="itemService" ref="itemservice"></property>
+	 </bean>
+	 
+	 <bean id="FindAllTopicAction"  class="com.newtouch.action.FindAllTopicAction" >
+	   <property name="subitemService" ref="subitemservice"></property>
+	   <property name="topicService" ref="topicservice"></property>
+	 </bean>
+	 <bean id="FindAllTopicAction_Ajax"  class="com.newtouch.action.FindAllTopic_AjaxAction" >
+	   <property name="subitemService" ref="subitemservice"></property>
+	   <property name="topicService" ref="topicservice"></property>
+	 </bean>
+	  <bean id="TopicAddAction"  class="com.newtouch.action.TopicAddAction" >
+	   <property name="topicService" ref="topicservice"></property>
+	 </bean>
+	 <bean id="FindTopicAction"  class="com.newtouch.action.FindTopicAction" >
+	   <property name="subitemService" ref="subitemservice"></property>
+	   <property name="topicService" ref="topicservice"></property>
+	   <property name="replayService" ref="replayservice"></property>
+	 </bean>
+	 <bean id="ReplayAddAction"  class="com.newtouch.action.ReplayAddAction" >	 
+	   <property name="replayService" ref="replayservice"></property>
+	 </bean>
+	 
+	 
+	 <!-- 声明式事务 -->
+<!-- 配置事务管理器 -->
+<bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+<property name="sessionFactory" ref="sessionfactory"></property>
+</bean>
+  <!--   配置事务管理策略 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+       <tx:attributes>
+         <tx:method name="add*" propagation="REQUIRED"/>
+         <tx:method name="get*" propagation="REQUIRED"/>
+         <tx:method name="*" propagation="REQUIRED"/>
+       </tx:attributes>
+    </tx:advice>
+  <!--   配置事务切面 -->
+    <aop:config  proxy-target-class="true">
+     
+      <aop:pointcut expression="execution (* com.newtouch.service.*.*(..))" id="myCut"/>
+       
+       <aop:advisor advice-ref="txAdvice" pointcut-ref="myCut"/>
+    </aop:config>
+	 
+
+</beans>

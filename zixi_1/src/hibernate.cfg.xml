@@ -1,0 +1,23 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+	
+	<hibernate-configuration>
+	<session-factory name="foo">
+	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+	<property name="hibernate.connection.url">jdbc:mysql://localhost/b_bbs</property>
+	<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+	<property name="hibernate.connection.username">root</property>
+	<property name="hibernate.connection.password"></property>
+	<property name="hibernate.show_sql">true</property>
+
+
+    <mapping resource="com/newtouch/entity/User.hbm.xml"></mapping>	  
+     <mapping resource="com/newtouch/entity/Item.hbm.xml"></mapping>	  
+     <mapping resource="com/newtouch/entity/Subitem.hbm.xml"></mapping>	
+     <mapping resource="com/newtouch/entity/Topic.hbm.xml"></mapping>	  
+     <mapping resource="com/newtouch/entity/Replay.hbm.xml"></mapping>	
+     
+	</session-factory>
+	</hibernate-configuration>
+	
